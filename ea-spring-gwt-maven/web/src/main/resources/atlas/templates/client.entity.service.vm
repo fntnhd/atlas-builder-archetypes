@@ -1,0 +1,287 @@
+package ${context.getProperty("namespace")}.client.service;
+
+import com.google.gwt.core.client.JsArray;
+import com.google.gwt.core.client.JsonUtils;
+import com.google.gwt.http.client.*;
+import ${context.getProperty("namespace")}.client.entity.${type.name};
+
+/**
+ * Responsible for invoking the ${type.name} REST service and handling async callbacks.
+ * 
+ */
+public class ${type.name}EntityServiceClient extends EntityServiceClient {
+
+    private static final String ${util.addSpacerToCamelCaseUpper(${type.name}, "_")} = "${util.uncapitalize(${type.name})}";
+
+    @Override
+    protected String entity() {
+        return ${util.addSpacerToCamelCaseUpper(${type.name}, "_")};
+    }
+
+    public void findById(String id, final FindById caller) {
+        RequestBuilder request = findByIdRequest(id);
+
+        try {
+            request.sendRequest(null, new RequestCallback() {
+
+                @Override
+                public void onResponseReceived(Request request, Response response) {
+                    int statusCode = response.getStatusCode();
+
+                    if (statusCode == Response.SC_OK) {
+                        String responseBody = response.getText();
+
+                        try {
+                            FindByIdResponse findByIdResponse = JsonUtils.safeEval(responseBody);
+                            caller.onFind${type.name}ByIdResponse(findByIdResponse);
+                        } catch (Throwable exception) {
+                            caller.onFind${type.name}ByIdError(exception);
+                        }
+                    } else {
+                        //do in case of server error
+                    }
+                }
+
+                @Override
+                public void onError(Request request, Throwable exception) {
+                    caller.onFind${type.name}ByIdError(exception);
+                }
+            });
+        } catch (RequestException ex) {
+            caller.onFind${type.name}ByIdError(ex);
+        }
+    }
+    
+    public class FindByIdResponse extends ServiceResponse {
+        
+        protected FindByIdResponse() {}
+        
+        public final native ${type.name} get${type.name}() /*-{
+        return this.${util.uncapitalize(${type.name})};
+        }-*/;
+        
+    }
+
+    /**
+     * Callers must implement this interface to handle the callback
+     */
+    public interface FindById {
+
+        public void onFind${type.name}ByIdResponse(FindByIdResponse response);
+
+        public void onFind${type.name}ByIdError(Throwable exception);
+    }
+
+    public void findAll(final FindAll caller) {
+        RequestBuilder request = findAllRequest();
+
+        try {
+            request.sendRequest(null, new RequestCallback() {
+
+                @Override
+                public void onResponseReceived(Request request, Response response) {
+                    int statusCode = response.getStatusCode();
+
+                    if (statusCode == Response.SC_OK) {
+                        String responseBody = response.getText();
+
+                        try {
+                            FindAllResponse findAllResponse = JsonUtils.safeEval(responseBody);
+                            caller.onFindAll${type.name}Response(findAllResponse);
+                        } catch (Throwable exception) {
+                            caller.onFindAll${type.name}Error(exception);
+                        }
+                    } else {
+                        //do in case of server error
+                    }
+                }
+
+                @Override
+                public void onError(Request request, Throwable exception) {
+                    caller.onFindAll${type.name}Error(exception);
+                }
+            });
+        } catch (RequestException ex) {
+            caller.onFindAll${type.name}Error(ex);
+        }
+    }
+    
+    public class FindAllResponse extends ServiceResponse {
+        
+        protected FindAllResponse() {}
+        
+        public final native JsArray<${type.name}> get${type.name}List() /*-{
+        return this.${util.uncapitalize(${type.name})}List;
+        }-*/;
+        
+    }
+
+    /**
+     * Callers must implement this interface to handle the callback
+     */
+    public interface FindAll {
+
+        public void onFindAll${type.name}Response(FindAllResponse response);
+
+        public void onFindAll${type.name}Error(Throwable exception);
+    }
+
+    public void create(${type.name} ${util.uncapitalize(${type.name})}, final Create caller) {
+        RequestBuilder request = addRequest();
+
+        try {
+            request.sendRequest(${util.uncapitalize(${type.name})}.json(), new RequestCallback() {
+
+                @Override
+                public void onResponseReceived(Request request, Response response) {
+                    int statusCode = response.getStatusCode();
+
+                    if (statusCode == Response.SC_OK) {
+                        try {
+                            String responseBody = response.getText();
+                            CreateResponse createResponse = JsonUtils.safeEval(responseBody);
+                            caller.onCreate${type.name}Response(createResponse);
+                        } catch (Throwable exception) {
+                            caller.onCreate${type.name}Error(exception);
+                        }
+                    } else {
+                        //do in case of server error
+                    }
+                }
+
+                @Override
+                public void onError(Request request, Throwable exception) {
+                    caller.onCreate${type.name}Error(exception);
+                }
+            });
+        } catch (RequestException ex) {
+            caller.onCreate${type.name}Error(ex);
+        }
+    }
+    
+    public class CreateResponse extends ServiceResponse {
+        
+        protected CreateResponse() {}
+        
+        public final native ${type.name} get${type.name}() /*-{
+        return this.${util.uncapitalize(${type.name})};
+        }-*/;
+        
+    }
+
+    /**
+     * Callers must implement this interface to handle the callback
+     */
+    public interface Create {
+
+        public void onCreate${type.name}Response(CreateResponse response);
+
+        public void onCreate${type.name}Error(Throwable exception);
+    }
+
+    public void update(${type.name} ${util.uncapitalize(${type.name})}, final Update caller) {
+        RequestBuilder request = updateRequest();
+
+        try {
+            request.sendRequest(${util.uncapitalize(${type.name})}.json(), new RequestCallback() {
+
+                @Override
+                public void onResponseReceived(Request request, Response response) {
+                    int statusCode = response.getStatusCode();
+
+                    if (statusCode == Response.SC_OK) {
+                        try {
+                            String responseBody = response.getText();
+                            UpdateResponse updateResponse = JsonUtils.safeEval(responseBody);
+                            caller.onUpdate${type.name}Response(updateResponse);
+                        } catch (Throwable exception) {
+                            caller.onUpdate${type.name}Error(exception);
+                        }
+                    } else {
+                        //do in case of server error
+                    }
+                }
+
+                @Override
+                public void onError(Request request, Throwable exception) {
+                    caller.onUpdate${type.name}Error(exception);
+                }
+            });
+        } catch (RequestException ex) {
+            caller.onUpdate${type.name}Error(ex);
+        }
+    }
+    
+    public class UpdateResponse extends ServiceResponse {
+        
+        protected UpdateResponse() {}
+        
+        public final native ${type.name} get${type.name}() /*-{
+        return this.${util.uncapitalize(${type.name})};
+        }-*/;
+        
+    }
+
+    /**
+     * Callers must implement this interface to handle the callback
+     */
+    public interface Update {
+
+        public void onUpdate${type.name}Response(UpdateResponse response);
+
+        public void onUpdate${type.name}Error(Throwable exception);
+    }
+
+    public void delete(${type.name} ${util.uncapitalize(${type.name})}, final Delete caller) {
+        RequestBuilder request = deleteRequest(${util.uncapitalize(${type.name})}.getId());
+
+        try {
+            request.sendRequest(${util.uncapitalize(${type.name})}.json(), new RequestCallback() {
+
+                @Override
+                public void onResponseReceived(Request request, Response response) {
+                    int statusCode = response.getStatusCode();
+
+                    if (statusCode == Response.SC_OK) {
+                        try {
+                            String responseBody = response.getText();
+                            DeleteResponse deleteResponse = JsonUtils.safeEval(responseBody);
+                            caller.onDelete${type.name}Response(deleteResponse);
+                        } catch (Throwable exception) {
+                            caller.onDelete${type.name}Error(exception);
+                        }
+                    } else {
+                        //do in case of server error
+                    }
+                }
+
+                @Override
+                public void onError(Request request, Throwable exception) {
+                    caller.onDelete${type.name}Error(exception);
+                }
+            });
+        } catch (RequestException ex) {
+            caller.onDelete${type.name}Error(ex);
+        }
+    }
+    
+    public class DeleteResponse extends ServiceResponse {
+        
+        protected DeleteResponse() {}
+        
+        public final native ${type.name} get${type.name}() /*-{
+        return this.${util.uncapitalize(${type.name})};
+        }-*/;
+        
+    }
+
+    /**
+     * Callers must implement this interface to handle the callback
+     */
+    public interface Delete {
+
+        public void onDelete${type.name}Response(DeleteResponse response);
+
+        public void onDelete${type.name}Error(Throwable exception);
+    }
+}

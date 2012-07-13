@@ -1,0 +1,6 @@
+
+<tags>
+    <boundary name="HomeView">
+        <tag name="root" value="true"/>
+    </boundary>
+</tags>

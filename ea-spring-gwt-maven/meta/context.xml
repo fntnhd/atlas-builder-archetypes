@@ -1,0 +1,20 @@
+
+<context>
+    <targets>
+        <target template="pom.xml.vm"
+            outputFile="pom.xml"
+            outputPath=""/>
+        <target template="server.pom.xml.vm"
+            outputFile="pom.xml"
+            outputPath="server"/>
+        <target template="atlas.server.context.xml.vm"
+            outputFile="context.xml"
+            outputPath="server/src/main/resources/atlas"/>
+        <target template="web.pom.xml.vm"
+                outputFile="pom.xml"
+                outputPath="web"/>
+        <target template="atlas.web.context.xml.vm"
+                outputFile="context.xml"
+                outputPath="web/src/main/resources/atlas"/>
+    </targets>
+</context>
